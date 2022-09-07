@@ -3,7 +3,6 @@ package com.mnmason6.codefellowship.controllers;
 import com.mnmason6.codefellowship.models.SiteUser;
 import com.mnmason6.codefellowship.repositories.SiteUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +18,8 @@ import java.security.Principal;
 public class UserController {
     @Autowired
     SiteUserRepository siteUserRepository;
-
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     HttpServletRequest request;
 
@@ -44,31 +41,17 @@ public class UserController {
     public String getSignupPage(){
         return "signup";
     }
-    @PostMapping("/login")
-    public RedirectView userLogin(String username, String password){
-        SiteUser userFromDb = siteUserRepository.findByUsername(username);
-        if((userFromDb == null) || (!BCrypt.checkpw(password, userFromDb.getPassword()))){
-            return new RedirectView("/login");
-        }
-        return new RedirectView("/" + username);
-    }
+
     @PostMapping("/signup")
     public RedirectView createUser(String username, String password,
                                    String firstName, String lastName,
-                                   int dateOfBirth, String bio){
+                                   int dateOfBirth, String bio) throws ServletException {
         String hashedPassword = passwordEncoder.encode(password);
-        SiteUser newUser = new SiteUser(username,password, firstName, lastName,
+        SiteUser newUser = new SiteUser(username, hashedPassword, firstName,
+                lastName,
                 dateOfBirth,bio);
         siteUserRepository.save(newUser);
-        authWithHttpServletRequest(username, password);
-        return new RedirectView("/");
-    }
-
-    public void authWithHttpServletRequest(String username, String password){
-        try{
-            request.login(username,password);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
+        request.login(username,password);
+        return new RedirectView("/login");
     }
 }

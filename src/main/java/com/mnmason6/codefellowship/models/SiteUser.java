@@ -32,7 +32,7 @@ public class SiteUser implements UserDetails {
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
     }
-
+    @Override
     public String getUsername() {
         return username;
     }

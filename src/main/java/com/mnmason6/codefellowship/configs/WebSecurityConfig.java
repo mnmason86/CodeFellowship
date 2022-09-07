@@ -36,6 +36,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/").permitAll()
+                    .antMatchers("/login").permitAll()
                     .antMatchers("/signup").permitAll()
                     .anyRequest().authenticated()
                     .and()
