@@ -52,6 +52,6 @@ public class UserController {
                 dateOfBirth,bio);
         siteUserRepository.save(newUser);
         request.login(username,password);
-        return new RedirectView("/login");
+        return new RedirectView("/");
     }
 }
