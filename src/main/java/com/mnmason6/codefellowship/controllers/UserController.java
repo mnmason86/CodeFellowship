@@ -1,5 +1,6 @@
 package com.mnmason6.codefellowship.controllers;
 
+import com.mnmason6.codefellowship.models.Post;
 import com.mnmason6.codefellowship.models.SiteUser;
 import com.mnmason6.codefellowship.repositories.SiteUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 @Controller
 public class UserController {
@@ -29,9 +31,9 @@ public class UserController {
     public String getHomePage(Principal p, Model m){
         if (p != null){
             String username = p.getName();
-            SiteUser someUser = siteUserRepository.findByUsername(username);
+            SiteUser siteUser = siteUserRepository.findByUsername(username);
 
-            m.addAttribute("username", username);
+            m.addAttribute("siteUser", siteUser);
         }
         return "index.html";
     }
@@ -51,12 +53,40 @@ public class UserController {
         return "my-profile";
     }
     @GetMapping("/login")
-    public String getLoginPage(){
+    public String getLoginPage(Principal p, Model m){
+        if(p != null){
+            String username = p.getName();
+            SiteUser siteUser = siteUserRepository.findByUsername(username);
+            m.addAttribute("siteUser", siteUser);
+        }
         return "login";
     }
     @GetMapping("/signup")
-    public String getSignupPage(){
+    public String getSignupPage(Principal p, Model m) {
+        if(p != null){
+            String username = p.getName();
+            SiteUser siteUser = siteUserRepository.findByUsername(username);
+            m.addAttribute("siteUser", siteUser);
+        }
         return "signup";
+    }
+    @GetMapping("/myprofile")
+    public String getMyProfile(Principal p, Model m){
+        if(p != null){
+            String username = p.getName();
+            SiteUser siteUser = siteUserRepository.findByUsername(username);
+            m.addAttribute("siteUser", siteUser);
+        }
+        return "my-profile";
+    }
+
+    @PostMapping("/myprofile")
+    public RedirectView addPost(Principal p, String body){
+        String username = p.getName();
+        SiteUser siteUser = siteUserRepository.findByUsername(username);
+        Post newPost = new Post(body, LocalDateTime.now(), siteUser);
+        postRepository.save(newPost);
+        return new RedirectView("/myprofile");
     }
 
     @PostMapping("/signup")
@@ -68,7 +98,11 @@ public class UserController {
                 lastName,
                 dateOfBirth,bio);
         siteUserRepository.save(newUser);
-        request.login(username,password);
+        try {
+            request.login(username, password);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         return new RedirectView("/");
     }
     @PostMapping("/users/{id}")

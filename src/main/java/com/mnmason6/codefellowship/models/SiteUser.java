@@ -3,11 +3,9 @@ package com.mnmason6.codefellowship.models;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class SiteUser implements UserDetails {
@@ -21,7 +19,10 @@ public class SiteUser implements UserDetails {
     private int dateOfBirth;
     private String bio;
 
-    public SiteUser() {
+    @OneToMany(mappedBy = "siteUser")
+    private List<Post> posts;
+
+    protected SiteUser() {
     }
 
     public SiteUser(String username, String password, String firstName, String lastName, int dateOfBirth, String bio) {
@@ -40,6 +41,14 @@ public class SiteUser implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return true;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

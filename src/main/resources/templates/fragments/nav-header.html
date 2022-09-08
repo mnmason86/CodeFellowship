@@ -6,8 +6,8 @@
 </head>
 <body>
 <h3 th:if="${username}"
-    th:text="'Current User from fragment 1: ' + ${username}"></h3>
-<nav th:if="${username}" th:fragment="my-profile"
-     th:text="'Current User from fragment 2: ' + ${username}"></nav>
+    th:text="'Current User: ' + ${username}"></h3>
+<nav th:if="${username}" th:fragment="site-user"
+     th:text="'Current User: ' + ${username}"></nav>
 </body>
 </html>
