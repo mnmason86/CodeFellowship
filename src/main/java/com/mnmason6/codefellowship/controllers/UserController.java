@@ -2,6 +2,7 @@ package com.mnmason6.codefellowship.controllers;
 
 import com.mnmason6.codefellowship.models.Post;
 import com.mnmason6.codefellowship.models.SiteUser;
+import com.mnmason6.codefellowship.repositories.PostRepository;
 import com.mnmason6.codefellowship.repositories.SiteUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,9 @@ import java.time.LocalDateTime;
 public class UserController {
     @Autowired
     SiteUserRepository siteUserRepository;
+
+    @Autowired
+    PostRepository postRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
