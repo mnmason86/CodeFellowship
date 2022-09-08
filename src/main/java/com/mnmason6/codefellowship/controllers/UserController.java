@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 public class UserController {
     @Autowired
     SiteUserRepository siteUserRepository;
-
     @Autowired
     PostRepository postRepository;
     @Autowired
@@ -39,7 +38,7 @@ public class UserController {
 
             m.addAttribute("siteUser", siteUser);
         }
-        return "index.html";
+        return "index";
     }
 
     @GetMapping("/users/{id}")
@@ -54,7 +53,7 @@ public class UserController {
         m.addAttribute("dbUserUsername", dbUser.getUsername());
         m.addAttribute("dbUserId", dbUser.getId());
 
-        return "my-profile";
+        return "user-info";
     }
     @GetMapping("/login")
     public String getLoginPage(Principal p, Model m){

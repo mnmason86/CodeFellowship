@@ -20,7 +20,7 @@ public class SiteUser implements UserDetails {
     private String bio;
 
     @OneToMany(mappedBy = "siteUser")
-    private List<Post> posts;
+    public List<Post> posts;
 
     protected SiteUser() {
     }

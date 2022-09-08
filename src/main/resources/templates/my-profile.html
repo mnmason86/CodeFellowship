@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>My Profile</title>
@@ -24,13 +24,15 @@
         </fieldset>
     </form>
 
-        <section>
-            <ul>
-                <li>
-                    <p th:text="'Post Body: ' + ${post.body}"></p>
-                    <h5 th:text="${#temporals.format(post.time, 'yyyy-MM-dd HH:mm:ss)}"></h5>
-                </li>
-            </ul>
-        </section>
+    <section>
+        <ul th:each="post: ${siteUser.posts}">
+            <li >
+                <p th:text="'Body: ' + ${post.body}"></p>
+                <h6
+                        th:text="${#temporals.format(post.timeStamp, 'yyyy-MM-dd HH:mm:ss')}"></h6>
+            </li>
+        </ul>
+    </section>
+
 </body>
 </html>
