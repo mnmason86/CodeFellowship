@@ -5,7 +5,9 @@
     <title>Home</title>
 </head>
 <body>
-<h3 th:if="${username != null}" th:text="${'Current user: ' + username}"></h3>
+<!--<h3 th:if="${username != null}" th:text="${'Current user: ' + username}"></h3>-->
+<div th:replace="/fragments/nav-header :: h3"></div>
+<div th:replace="/fragments/nav-header :: my-profile"></div>
 <h1>Welcome to the application. Enjoy.</h1>
 
 <a th:if="!${username}" href="/login">Log In</a>
