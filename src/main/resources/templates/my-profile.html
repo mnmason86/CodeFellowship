@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+</head>
+<body>
+    <header>
+        <nav th:replace="/fragments/nav-header :: nav"></nav>
+    </header>
+    <h3 th:if="${siteUser}" th:text="${'Username: ' + siteUser.username}"></h3>
+    <h3 th:if="${siteUser}" th:text="${'First Name: ' + siteUser.firstName}"></h3>
+    <h3 th:if="${siteUser}" th:text="${'Last Name: ' + siteUser.lastName}"></h3>
+    <h3 th:if="${siteUser}"
+        th:text="${'Date Of Birth: ' + siteUser.dateOfBirth}"></h3>
+    <h3 th:if="${siteUser}" th:text="${'Bio: ' + siteUser.bio}"></h3>
+
+    <form th:if="${siteUser}" action="/myprofile" method="post">
+        <fieldset>
+            <legend>Add a New Post</legend>
+            <label>Body</label>
+            <textarea name="body"></textarea>
+            <input type="submit" value="Add Post">
+        </fieldset>
+    </form>
+
+    <section>
+        <ul th:each="post: ${siteUser.posts}">
+            <li >
+                <p th:text="'Body: ' + ${post.body}"></p>
+                <h6
+                        th:text="${#temporals.format(post.timeStamp, 'yyyy-MM-dd HH:mm:ss')}"></h6>
+            </li>
+        </ul>
+    </section>
+
+</body>
+</html>
